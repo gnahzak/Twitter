@@ -1,10 +1,13 @@
 package com.codepath.apps.twitterApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.codepath.apps.twitterApp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
+
+    public final static int COMPOSE_REQUEST_CODE = 20;
 
     private TwitterClient client;
     TweetAdapter tweetAdapter;
@@ -46,6 +51,12 @@ public class TimelineActivity extends AppCompatActivity {
 
         populateTimeline();
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     private void populateTimeline() {
@@ -95,5 +106,27 @@ public class TimelineActivity extends AppCompatActivity {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miWriteTweet:
+                Intent i = new Intent(this, ComposeActivity.class);
+                startActivityForResult(i, COMPOSE_REQUEST_CODE);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Tweet tweet = (Tweet) getIntent().getParcelableExtra("Tweet");
+
+        // insert the new tweet and notify the adapter
+        tweets.add(0, tweet);
+        tweetAdapter.notifyItemInserted(0);
+        rvTweets.scrollToPosition(0);
     }
 }

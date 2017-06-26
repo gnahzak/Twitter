@@ -1,5 +1,7 @@
 package com.codepath.apps.twitterApp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 
 import org.json.JSONException;
@@ -13,7 +15,7 @@ import java.util.Locale;
  * Created by kazhang on 6/26/17.
  */
 
-public class Tweet {
+public class Tweet implements Parcelable {
 
     public String body;
     public long uid; // database ID for the tweet
@@ -33,6 +35,22 @@ public class Tweet {
         return tweet;
     }
 
+    private Tweet() {
+        body = "";
+        uid = 0;
+        user = new User();
+        createdAt = "";
+        timestamp = "";
+    }
+
+    private Tweet(Parcel in) {
+        body = in.readString();
+        uid = in.readLong();
+        user = in.readParcelable(User.class.getClassLoader());
+        createdAt = in.readString();
+        timestamp = in.readString();
+    }
+
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
     public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -50,4 +68,35 @@ public class Tweet {
 
         return relativeDate;
     }
+
+    // TODO: fill in describe contents
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(body);
+        out.writeLong(uid);
+        out.writeParcelable(user, flags);
+        out.writeString(createdAt);
+        out.writeString(timestamp);
+    }
+
+    public static final Parcelable.Creator<Tweet> CREATOR
+            = new Parcelable.Creator<Tweet>() {
+
+        // calls our new constructor and passes along the parcel, the returns the new object
+        @Override
+        public Tweet createFromParcel(Parcel in) {
+            return new Tweet(in);
+        }
+
+        // We just need to copy this and change the type to match our class.
+        @Override
+        public Tweet[] newArray(int size) {
+            return new Tweet[size];
+        }
+    };
 }
