@@ -1,11 +1,11 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.twitterApp;
+
+import android.app.Application;
+import android.content.Context;
 
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowLog;
 import com.raizlabs.android.dbflow.config.FlowManager;
-
-import android.app.Application;
-import android.content.Context;
 
 /*
  * This is the Android application itself and is used to configure various settings
@@ -16,7 +16,7 @@ import android.content.Context;
  *     // use client to send requests to API
  *
  */
-public class RestApplication extends Application {
+public class TwitterApplication extends Application {
 	private static Context context;
 
 	@Override
@@ -26,10 +26,10 @@ public class RestApplication extends Application {
 		FlowManager.init(new FlowConfig.Builder(this).build());
 		FlowLog.setMinimumLoggingLevel(FlowLog.Level.V);
 
-		RestApplication.context = this;
+		TwitterApplication.context = this;
 	}
 
 	public static RestClient getRestClient() {
-		return (RestClient) RestClient.getInstance(RestClient.class, RestApplication.context);
+		return (RestClient) RestClient.getInstance(RestClient.class, TwitterApplication.context);
 	}
 }
