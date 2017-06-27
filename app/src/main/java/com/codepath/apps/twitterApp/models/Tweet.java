@@ -69,7 +69,6 @@ public class Tweet implements Parcelable {
         return relativeDate;
     }
 
-    // TODO: fill in describe contents
     @Override
     public int describeContents() {
         return 0;

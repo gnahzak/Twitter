@@ -2,6 +2,7 @@ package com.codepath.apps.twitterApp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,14 +26,30 @@ public class TimelineActivity extends AppCompatActivity {
     public final static int COMPOSE_REQUEST_CODE = 20;
 
     private TwitterClient client;
-    TweetAdapter tweetAdapter;
-    ArrayList<Tweet> tweets;
-    RecyclerView rvTweets;
+    private TweetAdapter tweetAdapter;
+    private ArrayList<Tweet> tweets;
+    private RecyclerView rvTweets;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                tweetAdapter.clear();
+                populateTimeline();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
         client = TwitterApplication.getRestClient();
 
@@ -129,4 +146,35 @@ public class TimelineActivity extends AppCompatActivity {
         tweetAdapter.notifyItemInserted(0);
         rvTweets.scrollToPosition(0);
     }
+
+
+//    public void fetchTimelineAsync(int page) {
+//
+//        client.getHomeTimeline(new JsonHttpResponseHandler() {
+//            public void onSuccess(JSONArray response) {
+//                tweetAdapter.clear();
+//
+//                // iterate through JSON array and deserialize each entry
+//                for (int i = 0; i < response.length(); i++) {
+//                    // convert each JSON object to a Tweet model and add to our data source
+//
+//                    Tweet tweet = null;
+//                    try {
+//                        tweets.add(Tweet.fromJSON(response.getJSONObject(i)));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                tweetAdapter.addAll(tweets);
+//                swipeContainer.setRefreshing(false);
+//            }
+//
+//            public void onFailure(Throwable e) {
+//                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+//            }
+//
+//        });
+//    }
+
 }

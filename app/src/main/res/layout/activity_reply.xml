@@ -4,14 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.apps.twitterApp.ComposeActivity">
+    tools:context="com.codepath.apps.twitterApp.ReplyActivity">
+
+    <TextView
+        android:id="@+id/tvReplyTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Replying to" />
+
+    <TextView
+        android:id="@+id/tvAtReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/tvReplyTo"
+        android:text="user"
+        android:textColor="@color/blue" />
 
     <EditText
         android:id="@+id/etTweetBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAtReply"
         android:maxLength="140"
-        android:text="What's happening?"></EditText>
+        android:text="Tweet your reply"></EditText>
 
     <Button
         android:id="@+id/btTweet"
@@ -31,4 +50,5 @@
         android:layout_above="@+id/btTweet"
         android:layout_alignParentEnd="true"
         android:text="140/140 characters" />
+
 </RelativeLayout>

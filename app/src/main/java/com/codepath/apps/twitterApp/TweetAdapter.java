@@ -1,10 +1,13 @@
 package com.codepath.apps.twitterApp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterApp.models.Tweet;
 
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by kazhang on 6/26/17.
@@ -44,10 +49,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // use position to get data
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
 
         // populate views
-        holder.tvUserName.setText(tweet.user.name);
+        final String username = tweet.user.name;
+        holder.tvUserName.setText(username);
         holder.tvBody.setText(tweet.body);
         holder.timestamp.setText(tweet.timestamp);
 
@@ -55,6 +61,23 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
+
+        holder.replyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.ibReply:
+                        Log.i(TAG, username);
+                        Intent i = new Intent(context, ReplyActivity.class);
+                        i.putExtra("Tweet", tweet);
+                        context.startActivity(i);
+
+                        return;
+                    default:
+                        Log.i(TAG, "Incorrect button chosen");
+                }
+            }
+        });
 
     }
 
@@ -65,11 +88,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     // create ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView ivProfileImage;
         public TextView tvUserName;
         public TextView tvBody;
         public TextView timestamp;
+        public ImageButton replyButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +104,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             timestamp = (TextView) itemView.findViewById(R.id.tvRelativeTime);
+            replyButton = (ImageButton) itemView.findViewById(R.id.ibReply);
+
         }
     }
+
+    public void clear() {
+        mTweets.clear();
+        notifyDataSetChanged();
+    }
+
+
 }
