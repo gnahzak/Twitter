@@ -10,8 +10,8 @@
         android:id="@+id/etTweetBody"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLength="140"
-        android:text="What's happening?"></EditText>
+        android:hint="What's happening?"
+        android:maxLength="140"></EditText>
 
     <Button
         android:id="@+id/btTweet"

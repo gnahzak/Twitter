@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterApp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -35,6 +38,12 @@ public class ReplyActivity extends AppCompatActivity {
     String toUser;
     long uid;
 
+    public ImageView ivProfileImage;
+    public TextView tvUserName;
+    public TextView tvBody;
+    public TextView timestamp;
+    public ImageButton replyButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "here1");
@@ -46,11 +55,27 @@ public class ReplyActivity extends AppCompatActivity {
         simpleEditText = (EditText) findViewById(R.id.etTweetBody);
         tvCharCount = (TextView) findViewById(R.id.tvCharCount);
         replyTo = (TextView) findViewById(R.id.tvAtReply);
-
         button = (Button) findViewById(R.id.btTweet);
+
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        tvUserName = (TextView) findViewById(R.id.tvUserName);
+        tvBody = (TextView) findViewById(R.id.tvBody);
+        timestamp = (TextView) findViewById(R.id.tvRelativeTime);
 
         // unwrap tweet passed in via intent
         Tweet tweet = (Tweet) getIntent().getParcelableExtra("Tweet");
+
+        // fill in tweet information
+        String username = tweet.user.name;
+        tvUserName.setText(username);
+        tvBody.setText(tweet.body);
+        timestamp.setText(tweet.timestamp);
+
+
+        // loading profile image
+        Glide.with(this)
+                .load(tweet.user.profileImageUrl)
+                .into(ivProfileImage);
 
         // list reply name correctly
         toUser = tweet.user.screenName;
