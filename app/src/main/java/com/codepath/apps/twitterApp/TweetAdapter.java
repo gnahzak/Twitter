@@ -71,8 +71,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         Intent i = new Intent(context, ReplyActivity.class);
                         i.putExtra("Tweet", tweet);
                         context.startActivity(i);
-
                         return;
+//                    case R.id.ibRetweet:
+//                        //TODO
+//                        return;
+//                    case R.id.ibLike:
+//                        //TODO
+//                        return;
                     default:
                         Log.i(TAG, "Incorrect button chosen");
                 }
@@ -88,12 +93,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     // create ViewHolder class
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView ivProfileImage;
         public TextView tvUserName;
         public TextView tvBody;
         public TextView timestamp;
         public ImageButton replyButton;
+        public ImageButton retweetButton;
+        public ImageButton likeButton;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -105,7 +112,25 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             timestamp = (TextView) itemView.findViewById(R.id.tvRelativeTime);
             replyButton = (ImageButton) itemView.findViewById(R.id.ibReply);
+            retweetButton = (ImageButton) itemView.findViewById(R.id.ibRetweet);
+            likeButton = (ImageButton) itemView.findViewById(R.id.ibLike);
 
+            itemView.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+
+            // get tweet at that position in the list
+            if (position != RecyclerView.NO_POSITION) {
+                Tweet tweet = mTweets.get(position);
+                Intent intent = new Intent(context, TweetDetailsActivity.class);
+                intent.putExtra("Tweet", tweet);
+
+                context.startActivity(intent);
+            }
         }
     }
 
