@@ -28,6 +28,8 @@ public class TweetDetailsActivity extends AppCompatActivity {
     ImageButton favoriteButton;
     String toUser;
     long uid;
+    boolean favorited;
+    boolean retweeted;
 
     public ImageView ivProfileImage;
     public TextView tvUserName;
@@ -57,6 +59,8 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvBody.setText(tweet.body);
         timestamp.setText(tweet.timestamp);
 
+        favorited = tweet.favorited;
+        retweeted = tweet.retweeted;
 
         // loading profile image
         Glide.with(this)
@@ -76,7 +80,11 @@ public class TweetDetailsActivity extends AppCompatActivity {
         retweetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, "Retweeted");
-                retweetTweet();
+                if (retweeted) {
+                    unreTweet();
+                } else {
+                    retweetTweet();
+                }
             }
         });
 
@@ -85,8 +93,12 @@ public class TweetDetailsActivity extends AppCompatActivity {
     private void setFavoriteListener() {
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.i(TAG, "Favorited");
-                favoriteTweet();
+                Log.i(TAG, "Clicked favorite");
+                if (favorited) {
+                    unfavTweet();
+                } else {
+                    favoriteTweet();
+                }
             }
         });
 
@@ -101,6 +113,56 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    retweeted = true;
+                    Tweet tweet = Tweet.fromJSON(response);
+
+                    // TODO: process retweeted tweet
+                    // send back to the original activity
+//                    Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
+//                    i.putExtra("Tweet", tweet);
+//                    setResult(RESULT_OK, i);
+//                    finish();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void unreTweet() {
+
+        client.unretweet(uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+                    retweeted = false;
                     Tweet tweet = Tweet.fromJSON(response);
 
                     // TODO: process retweeted tweet
@@ -149,6 +211,56 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    favorited = true;
+                    Tweet tweet = Tweet.fromJSON(response);
+
+                    // TODO: process result
+                    // send back to the original activity
+//                    Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
+//                    i.putExtra("Tweet", tweet);
+//                    setResult(RESULT_OK, i);
+//                    finish();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void unfavTweet() {
+
+        client.unfavTweet(uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+                    favorited = false;
                     Tweet tweet = Tweet.fromJSON(response);
 
                     // TODO: process result
@@ -188,3 +300,5 @@ public class TweetDetailsActivity extends AppCompatActivity {
         });
     }
 }
+
+
