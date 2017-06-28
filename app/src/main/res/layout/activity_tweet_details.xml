@@ -81,7 +81,7 @@
         android:text="0" />
 
     <ImageButton
-        android:id="@+id/ibLike"
+        android:id="@+id/ibFavorite"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/textView2"
@@ -92,8 +92,8 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ibLike"
-        android:layout_toEndOf="@+id/ibLike"
+        android:layout_alignTop="@+id/ibFavorite"
+        android:layout_toEndOf="@+id/ibFavorite"
         android:text="0" />
 
 </RelativeLayout>

@@ -113,7 +113,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             timestamp = (TextView) itemView.findViewById(R.id.tvRelativeTime);
             replyButton = (ImageButton) itemView.findViewById(R.id.ibReply);
             retweetButton = (ImageButton) itemView.findViewById(R.id.ibRetweet);
-            likeButton = (ImageButton) itemView.findViewById(R.id.ibLike);
+            likeButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
 
             itemView.setOnClickListener(this);
 
