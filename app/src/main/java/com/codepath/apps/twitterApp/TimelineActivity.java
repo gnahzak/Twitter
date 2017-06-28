@@ -139,12 +139,15 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Tweet tweet = (Tweet) getIntent().getParcelableExtra("Tweet");
+        if (resultCode == RESULT_OK && requestCode == COMPOSE_REQUEST_CODE) {
+            Tweet tweet = (Tweet) getIntent().getParcelableExtra("Tweet");
 
-        // insert the new tweet and notify the adapter
-        tweets.add(0, tweet);
-        tweetAdapter.notifyItemInserted(0);
-        rvTweets.scrollToPosition(0);
+            // insert the new tweet and notify the adapter
+            tweets.add(0, tweet);
+            tweetAdapter.notifyItemInserted(0);
+            rvTweets.scrollToPosition(0);
+        }
+
     }
 
 

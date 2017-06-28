@@ -80,7 +80,7 @@ public class ReplyActivity extends AppCompatActivity {
         // list reply name correctly
         toUser = tweet.user.screenName;
         replyTo = (TextView) findViewById(R.id.tvAtReply);
-        replyTo.setText(toUser);
+        replyTo.setText("@" + toUser);
 
         uid = tweet.uid;
 

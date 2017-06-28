@@ -63,7 +63,8 @@ public class ComposeActivity extends AppCompatActivity {
                      // send back to the original activity
                     Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
                     i.putExtra("Tweet", tweet);
-                    startActivity(i);
+                    setResult(RESULT_OK, i);
+                    finish();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
