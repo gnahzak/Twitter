@@ -59,8 +59,15 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvBody.setText(tweet.body);
         timestamp.setText(tweet.timestamp);
 
+        // set favorited or retweeted appropriately
         favorited = tweet.favorited;
         retweeted = tweet.retweeted;
+        if (favorited) {
+            favoriteButton.setImageResource(R.drawable.ic_launcher);
+        }
+        if (retweeted) {
+            retweetButton.setImageResource(R.drawable.ic_launcher);
+        }
 
         // loading profile image
         Glide.with(this)
@@ -113,6 +120,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    retweetButton.setImageResource(R.drawable.ic_launcher);
                     retweeted = true;
                     Tweet tweet = Tweet.fromJSON(response);
 
@@ -162,6 +170,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    retweetButton.setImageResource(R.drawable.redo_button);
                     retweeted = false;
                     Tweet tweet = Tweet.fromJSON(response);
 
@@ -212,6 +221,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
                 try {
                     favorited = true;
+                    favoriteButton.setImageResource(R.drawable.ic_launcher);
                     Tweet tweet = Tweet.fromJSON(response);
 
                     // TODO: process result
@@ -260,6 +270,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    favoriteButton.setImageResource(R.drawable.empty_heart);
                     favorited = false;
                     Tweet tweet = Tweet.fromJSON(response);
 
