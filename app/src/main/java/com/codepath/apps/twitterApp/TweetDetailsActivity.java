@@ -41,6 +41,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     public TextView timestamp;
     public TextView tvRetweets;
     public TextView tvFavorites;
+    public ImageView ivMedia;
 
     public Tweet returnTweet;
 
@@ -59,6 +60,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         timestamp = (TextView) findViewById(R.id.tvRelativeTime);
         tvRetweets = (TextView) findViewById(R.id.tvRetweets);
         tvFavorites = (TextView) findViewById(R.id.tvFavorites);
+        ivMedia = (ImageView) findViewById(R.id.ivMedia);
 
         // unwrap tweet passed in via intent
         Intent i = getIntent();
@@ -91,6 +93,19 @@ public class TweetDetailsActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(tweet.user.profileImageUrl)
                 .into(ivProfileImage);
+
+
+        // load extra image
+        String url = tweet.media_url;
+        if (url.equals("")) {
+            // remove image view
+            ivMedia.setVisibility(View.GONE);
+        } else {
+            ivMedia.setVisibility(View.VISIBLE);
+            Glide.with(this)
+                    .load(tweet.media_url)
+                    .into(ivMedia);
+        }
 
         // list reply name and ID
         toUser = tweet.user.screenName;

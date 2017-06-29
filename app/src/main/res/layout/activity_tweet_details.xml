@@ -96,4 +96,11 @@
         android:layout_toEndOf="@+id/ibFavorite"
         android:text="0" />
 
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="340dp"
+        android:layout_height="226dp"
+        android:layout_below="@+id/ibFavorite"
+        app:srcCompat="@android:color/black" />
+
 </RelativeLayout>
