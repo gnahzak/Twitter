@@ -141,7 +141,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
                 try {
                     Tweet tweet = Tweet.fromJSON(response);
-                    returnTweet = tweet;
+                    // returnTweet = tweet;
 
                     // set local changes
                     retweetButton.setImageResource(R.drawable.ic_launcher);
@@ -201,7 +201,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 try {
 
                     Tweet tweet = Tweet.fromJSON(response);
-                    returnTweet = tweet;
+                    // returnTweet = tweet;
 
                     // set local changes
                     retweetButton.setImageResource(R.drawable.redo_button);

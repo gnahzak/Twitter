@@ -82,7 +82,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         // load extra image
         String url = tweet.media_url;
-        if (url == "") {
+        if (url.equals("")) {
             // remove image view
             holder.ivMedia.setVisibility(View.GONE);
         } else {

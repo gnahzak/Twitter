@@ -21,11 +21,12 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.codepath.apps.twitterApp.TweetAdapter.DETAILS_REQUEST_CODE;
-
 public class TimelineActivity extends AppCompatActivity {
 
     public final static int COMPOSE_REQUEST_CODE = 20;
+    public final static int DETAILS_REQUEST_CODE = 30;
+
+    public final static String TAG = "TimelineActivity";
 
     private TwitterClient client;
     private TweetAdapter tweetAdapter;
@@ -155,6 +156,7 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.set(position, tweet);
             tweetAdapter.notifyItemChanged(position);
 
+            Log.i(TAG, tweet.media_url);
         }
 
     }
