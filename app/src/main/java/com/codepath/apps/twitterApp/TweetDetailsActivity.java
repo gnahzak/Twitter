@@ -32,6 +32,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     boolean favorited;
     boolean retweeted;
     private int numRetweets;
+    private int numFaves;
     private int position;
 
     public ImageView ivProfileImage;
@@ -39,6 +40,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     public TextView tvBody;
     public TextView timestamp;
     public TextView tvRetweets;
+    public TextView tvFavorites;
 
     public Tweet returnTweet;
 
@@ -56,6 +58,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvBody = (TextView) findViewById(R.id.tvBody);
         timestamp = (TextView) findViewById(R.id.tvRelativeTime);
         tvRetweets = (TextView) findViewById(R.id.tvRetweets);
+        tvFavorites = (TextView) findViewById(R.id.tvFavorites);
 
         // unwrap tweet passed in via intent
         Intent i = getIntent();
@@ -70,7 +73,9 @@ public class TweetDetailsActivity extends AppCompatActivity {
         timestamp.setText(tweet.timestamp);
 
         numRetweets = tweet.numRetweets;
+        numFaves = tweet.numFaves;
         tvRetweets.setText(String.valueOf(numRetweets));
+        tvFavorites.setText(String.valueOf(numFaves));
 
         // set favorited or retweeted appropriately
         favorited = tweet.favorited;
@@ -254,9 +259,18 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
-                    favorited = true;
-                    favoriteButton.setImageResource(R.drawable.ic_launcher);
                     Tweet tweet = Tweet.fromJSON(response);
+                    returnTweet = tweet;
+
+                    // set local changes
+                    favoriteButton.setImageResource(R.drawable.ic_launcher);
+                    favorited = true;
+                    numFaves += 1;
+                    tvFavorites.setText(String.valueOf(numFaves));
+
+                    // change tweet itself
+                    returnTweet.setFavorited(true);
+                    returnTweet.setNumFaves(numFaves);
 
                     // TODO: process result
                     // send back to the original activity
@@ -304,9 +318,19 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+
+                    Tweet tweet = Tweet.fromJSON(response);
+                    returnTweet = tweet;
+
+                    // set local changes
                     favoriteButton.setImageResource(R.drawable.empty_heart);
                     favorited = false;
-                    Tweet tweet = Tweet.fromJSON(response);
+                    numFaves -= 1;
+                    tvFavorites.setText(String.valueOf(numFaves));
+
+                    // change tweet itself
+                    returnTweet.setFavorited(false);
+                    returnTweet.setNumFaves(numFaves);
 
                     // TODO: process result
                     // send back to the original activity

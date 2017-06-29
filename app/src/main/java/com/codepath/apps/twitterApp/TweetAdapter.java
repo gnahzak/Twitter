@@ -61,12 +61,18 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvBody.setText(tweet.body);
         holder.timestamp.setText(tweet.timestamp);
         holder.tvRetweets.setText(String.valueOf(tweet.numRetweets));
-//        holder.tvFavourites.setText(String.valueOf(tweet.numFaves));
+        holder.tvFavourites.setText(String.valueOf(tweet.numFaves));
 
         if (tweet.retweeted) {
             holder.retweetButton.setImageResource(R.drawable.ic_launcher);
         } else {
             holder.retweetButton.setImageResource(R.drawable.redo_button);
+        }
+
+        if (tweet.favorited) {
+            holder.favoriteButton.setImageResource(R.drawable.ic_launcher);
+        } else {
+            holder.favoriteButton.setImageResource(R.drawable.empty_heart);
         }
 
         // loading profile image
@@ -125,7 +131,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView timestamp;
         public ImageButton replyButton;
         public ImageButton retweetButton;
-        public ImageButton likeButton;
+        public ImageButton favoriteButton;
         public ImageView ivMedia;
         public TextView tvRetweets;
         public TextView tvFavourites;
@@ -141,7 +147,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             timestamp = (TextView) itemView.findViewById(R.id.tvRelativeTime);
             replyButton = (ImageButton) itemView.findViewById(R.id.ibReply);
             retweetButton = (ImageButton) itemView.findViewById(R.id.ibRetweet);
-            likeButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
+            favoriteButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
             ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
             tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
             tvFavourites = (TextView) itemView.findViewById(R.id.tvFavourites);

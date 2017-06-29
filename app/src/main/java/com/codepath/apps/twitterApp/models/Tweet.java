@@ -30,7 +30,7 @@ public class Tweet implements Parcelable {
     public boolean retweeted;
     public String media_url;
     public int numRetweets;
-//    public int numFaves;
+    public int numFaves;
 
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
@@ -44,7 +44,7 @@ public class Tweet implements Parcelable {
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.numRetweets = jsonObject.getInt("retweet_count");
-//        tweet.numFaves = jsonObject.getJSONObject("user").getInt("favourites_count");
+        tweet.numFaves = jsonObject.getInt("favorite_count");
 
         tweet.media_url = "";
         // get first url for media
@@ -68,7 +68,7 @@ public class Tweet implements Parcelable {
         retweeted = false;
         media_url = "";
         numRetweets = 0;
-//        numFaves = 0;
+        numFaves = 0;
     }
 
     private Tweet(Parcel in) {
@@ -81,7 +81,7 @@ public class Tweet implements Parcelable {
         retweeted = (Boolean) in.readValue(null);
         media_url = in.readString();
         numRetweets = in.readInt();
-//        numFaves = in.readInt();
+        numFaves = in.readInt();
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -118,7 +118,7 @@ public class Tweet implements Parcelable {
         out.writeValue(retweeted);
         out.writeString(media_url);
         out.writeInt(numRetweets);
-//        out.writeInt(numFaves);
+        out.writeInt(numFaves);
     }
 
     public static final Parcelable.Creator<Tweet> CREATOR
@@ -161,5 +161,13 @@ public class Tweet implements Parcelable {
 
     public void setNumRetweets(int numRetweets) {
         this.numRetweets = numRetweets;
+    }
+
+    public void setFavorited(boolean favorited) {
+        this.favorited = favorited;
+    }
+
+    public void setNumFaves(int numFaves) {
+        this.numFaves = numFaves;
     }
 }
