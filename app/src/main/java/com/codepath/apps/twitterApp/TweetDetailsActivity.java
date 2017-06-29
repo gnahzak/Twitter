@@ -265,12 +265,12 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     // set local changes
                     favoriteButton.setImageResource(R.drawable.ic_launcher);
                     favorited = true;
-                    numFaves += 1;
+                    numFaves = returnTweet.numFaves;
                     tvFavorites.setText(String.valueOf(numFaves));
 
                     // change tweet itself
-                    returnTweet.setFavorited(true);
-                    returnTweet.setNumFaves(numFaves);
+                    // returnTweet.setFavorited(true);
+                    // returnTweet.setNumFaves(numFaves);
 
                     // TODO: process result
                     // send back to the original activity
@@ -325,12 +325,12 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     // set local changes
                     favoriteButton.setImageResource(R.drawable.empty_heart);
                     favorited = false;
-                    numFaves -= 1;
+                    numFaves = returnTweet.numFaves;
                     tvFavorites.setText(String.valueOf(numFaves));
 
                     // change tweet itself
-                    returnTweet.setFavorited(false);
-                    returnTweet.setNumFaves(numFaves);
+                    // returnTweet.setFavorited(false);
+                    // returnTweet.setNumFaves(numFaves);
 
                     // TODO: process result
                     // send back to the original activity
