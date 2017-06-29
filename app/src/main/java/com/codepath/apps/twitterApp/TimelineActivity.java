@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.codepath.apps.twitterApp.TweetAdapter.DETAILS_REQUEST_CODE;
+
 public class TimelineActivity extends AppCompatActivity {
 
     public final static int COMPOSE_REQUEST_CODE = 20;
@@ -146,6 +148,13 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             tweetAdapter.notifyItemInserted(0);
             rvTweets.scrollToPosition(0);
+        }
+        else if (resultCode == RESULT_OK && requestCode == DETAILS_REQUEST_CODE) {
+            Tweet tweet = data.getParcelableExtra("Tweet");
+            int position = data.getIntExtra("Position", 0);
+            tweets.set(position, tweet);
+            tweetAdapter.notifyItemChanged(position);
+
         }
 
     }

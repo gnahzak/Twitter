@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterApp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +24,9 @@ import static android.content.ContentValues.TAG;
  */
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
+
+    public final static int DETAILS_REQUEST_CODE = 30;
+
 
     private List<Tweet> mTweets;
     Context context;
@@ -56,6 +60,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvUserName.setText(username);
         holder.tvBody.setText(tweet.body);
         holder.timestamp.setText(tweet.timestamp);
+        holder.tvRetweets.setText(String.valueOf(tweet.numRetweets));
+//        holder.tvFavourites.setText(String.valueOf(tweet.numFaves));
+
+        if (tweet.retweeted) {
+            holder.retweetButton.setImageResource(R.drawable.ic_launcher);
+        } else {
+            holder.retweetButton.setImageResource(R.drawable.redo_button);
+        }
 
         // loading profile image
         Glide.with(context)
@@ -115,6 +127,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageButton retweetButton;
         public ImageButton likeButton;
         public ImageView ivMedia;
+        public TextView tvRetweets;
+        public TextView tvFavourites;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -129,6 +143,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             retweetButton = (ImageButton) itemView.findViewById(R.id.ibRetweet);
             likeButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
             ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
+            tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
+            tvFavourites = (TextView) itemView.findViewById(R.id.tvFavourites);
+
 
             itemView.setOnClickListener(this);
 
@@ -143,9 +160,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 Tweet tweet = mTweets.get(position);
                 Intent intent = new Intent(context, TweetDetailsActivity.class);
                 intent.putExtra("Tweet", tweet);
+                intent.putExtra("Position", position);
 
-                context.startActivity(intent);
+                ((Activity) context).startActivityForResult(intent, DETAILS_REQUEST_CODE);
             }
+
         }
     }
 

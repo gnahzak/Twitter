@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -30,11 +31,16 @@ public class TweetDetailsActivity extends AppCompatActivity {
     long uid;
     boolean favorited;
     boolean retweeted;
+    private int numRetweets;
+    private int position;
 
     public ImageView ivProfileImage;
     public TextView tvUserName;
     public TextView tvBody;
     public TextView timestamp;
+    public TextView tvRetweets;
+
+    public Tweet returnTweet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +55,22 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvUserName = (TextView) findViewById(R.id.tvUserName);
         tvBody = (TextView) findViewById(R.id.tvBody);
         timestamp = (TextView) findViewById(R.id.tvRelativeTime);
+        tvRetweets = (TextView) findViewById(R.id.tvRetweets);
 
         // unwrap tweet passed in via intent
-        Tweet tweet = (Tweet) getIntent().getParcelableExtra("Tweet");
+        Intent i = getIntent();
+        Tweet tweet = (Tweet) i.getParcelableExtra("Tweet");
+        returnTweet = tweet;
+        position = i.getIntExtra("Position", 0);
 
         // fill in tweet information
         String username = tweet.user.name;
         tvUserName.setText(username);
         tvBody.setText(tweet.body);
         timestamp.setText(tweet.timestamp);
+
+        numRetweets = tweet.numRetweets;
+        tvRetweets.setText(String.valueOf(numRetweets));
 
         // set favorited or retweeted appropriately
         favorited = tweet.favorited;
@@ -122,9 +135,18 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+                    Tweet tweet = Tweet.fromJSON(response);
+                    returnTweet = tweet;
+
+                    // set local changes
                     retweetButton.setImageResource(R.drawable.ic_launcher);
                     retweeted = true;
-                    Tweet tweet = Tweet.fromJSON(response);
+                    numRetweets += 1;
+                    tvRetweets.setText(String.valueOf(numRetweets));
+
+                    // change tweet itself
+                    returnTweet.setRetweeted(true);
+                    returnTweet.setNumRetweets(numRetweets);
 
                     // TODO: process retweeted tweet
                     // send back to the original activity
@@ -172,9 +194,19 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 Log.i(TAG, response.toString());
 
                 try {
+
+                    Tweet tweet = Tweet.fromJSON(response);
+                    returnTweet = tweet;
+
+                    // set local changes
                     retweetButton.setImageResource(R.drawable.redo_button);
                     retweeted = false;
-                    Tweet tweet = Tweet.fromJSON(response);
+                    numRetweets -= 1;
+                    tvRetweets.setText(String.valueOf(numRetweets));
+
+                    // change tweet itself
+                    returnTweet.setRetweeted(false);
+                    returnTweet.setNumRetweets(numRetweets);
 
                     // TODO: process retweeted tweet
                     // send back to the original activity
@@ -311,6 +343,19 @@ public class TweetDetailsActivity extends AppCompatActivity {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        Log.i(TAG, "Pressed back button");
+
+        // send back to the original activity
+        Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
+        i.putExtra("Tweet", returnTweet);
+        i.putExtra("Position", position);
+        setResult(RESULT_OK, i);
+        finish();
     }
 }
 

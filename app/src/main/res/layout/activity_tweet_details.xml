@@ -57,7 +57,7 @@
         app:srcCompat="@android:drawable/stat_notify_chat" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvComments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
@@ -70,10 +70,10 @@
         android:layout_height="30dp"
         app:srcCompat="@android:drawable/ic_menu_rotate"
         android:layout_below="@+id/tvBody"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_toEndOf="@+id/tvComments" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvRetweets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ibRetweet"
@@ -84,8 +84,8 @@
         android:id="@+id/ibFavorite"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
+        android:layout_alignTop="@+id/tvRetweets"
+        android:layout_toEndOf="@+id/tvRetweets"
         app:srcCompat="@android:drawable/btn_star" />
 
     <TextView
