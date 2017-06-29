@@ -23,8 +23,11 @@ import com.loopj.android.http.RequestParams;
 public class TwitterClient extends OAuthBaseClient {
 	public static final BaseApi REST_API_INSTANCE = TwitterApi.instance();
 	public static final String REST_URL = "https://api.twitter.com/1.1";
-	public static final String REST_CONSUMER_KEY = "PWwLC2Oeg6HrxA2P5SYFzn8IQ"; //TODO: remove hardcoding
-	public static final String REST_CONSUMER_SECRET = "HCQB44QvFahdnUS4QYwUeP4PqXV55WCwaBCuAXXRqmuHEpAO92";
+//	public static final String REST_CONSUMER_KEY = "PWwLC2Oeg6HrxA2P5SYFzn8IQ";
+//	public static final String REST_CONSUMER_SECRET = "HCQB44QvFahdnUS4QYwUeP4PqXV55WCwaBCuAXXRqmuHEpAO92";
+
+	public static final String REST_CONSUMER_KEY = "7LhzRIVP9ohvtCz9uN0nOBkvC";
+	public static final String REST_CONSUMER_SECRET = "wHe7JDoFAMIWCuybdhOh6JkDGB1FjbMItLAqfwJJeUag1DWpxL";
 
 	// Landing page to indicate the OAuth flow worked in case Chrome for Android 25+ blocks navigation back to the app.
 	public static final String FALLBACK_URL = "https://codepath.github.io/android-rest-client-template/success.html";
@@ -42,13 +45,26 @@ public class TwitterClient extends OAuthBaseClient {
 	}
 	// CHANGE THIS
 	// DEFINE METHODS for different API endpoints here
+	public void getHomeTimeline(long max_id, AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("statuses/home_timeline.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("count", 25);
+		// params.put("since_id", 1);
+		params.put("max_id", max_id);
+		client.get(apiUrl, params, handler);
+	}
+
 	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+		// getHomeTimeline(0, handler);
+
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("since_id", 1);
 		client.get(apiUrl, params, handler);
+
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint

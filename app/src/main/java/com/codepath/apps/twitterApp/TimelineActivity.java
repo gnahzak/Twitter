@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.codepath.apps.twitterApp.R.id.rvTweet;
+
 public class TimelineActivity extends AppCompatActivity {
 
     public final static int COMPOSE_REQUEST_CODE = 20;
@@ -33,6 +35,9 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
+
+    public long maxId;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient();
 
         // find RecyclerView
-        rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
+        rvTweets = (RecyclerView) findViewById(rvTweet);
 
         // initialize the data source
         tweets = new ArrayList<>();
@@ -66,11 +71,27 @@ public class TimelineActivity extends AppCompatActivity {
         tweetAdapter = new TweetAdapter(tweets);
 
         // set up RecyclerView (layout manager, using adapter)
+
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(tweetAdapter);
 
+        maxId = Long.MAX_VALUE;
         populateTimeline();
 
+        // set up infinite scroll
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
+        // Retain an instance so that you can call `resetState()` for fresh searches
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi();
+            }
+        };
+        // Adds the scroll listener to RecyclerView
+        rvTweets.addOnScrollListener(scrollListener);
     }
 
     @Override
@@ -100,6 +121,11 @@ public class TimelineActivity extends AppCompatActivity {
                         tweet = Tweet.fromJSON(response.getJSONObject(i));
                         tweets.add(tweet);
                         tweetAdapter.notifyItemInserted(tweets.size() - 1);
+
+                        // modify max_id
+                        if (tweet.uid < maxId) {
+                            maxId = tweet.uid;
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -160,6 +186,62 @@ public class TimelineActivity extends AppCompatActivity {
         }
 
     }
+
+    public void loadNextDataFromApi() {
+        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("TwitterClient", response.toString());
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("TwitterClient", response.toString());
+
+                // iterate through JSON array and deserialize each entry
+                for (int i = 0; i < response.length(); i++) {
+                    // convert each JSON object to a Tweet model and add to our data source
+
+                    // notify adapter that we added an item
+                    Tweet tweet = null;
+                    try {
+                        tweet = Tweet.fromJSON(response.getJSONObject(i));
+                        tweets.add(tweet);
+                        tweetAdapter.notifyItemInserted(tweets.size() - 1);
+
+                        // modify max_id
+                        if (tweet.uid < maxId) {
+                            maxId = tweet.uid;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("TwitterClient", responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+
+    }
+
 
 
 //    public void fetchTimelineAsync(int page) {
