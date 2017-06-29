@@ -62,6 +62,19 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 .load(tweet.user.profileImageUrl)
                 .into(holder.ivProfileImage);
 
+        // load extra image
+        String url = tweet.media_url;
+        if (url == "") {
+            // remove image view
+            holder.ivMedia.setVisibility(View.GONE);
+        } else {
+            Log.i(TAG, "HERE!!");
+            holder.ivMedia.setVisibility(View.VISIBLE);
+            Glide.with(context)
+                    .load(tweet.media_url)
+                    .into(holder.ivMedia);
+        }
+
         holder.replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +114,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageButton replyButton;
         public ImageButton retweetButton;
         public ImageButton likeButton;
+        public ImageView ivMedia;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -114,6 +128,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             replyButton = (ImageButton) itemView.findViewById(R.id.ibReply);
             retweetButton = (ImageButton) itemView.findViewById(R.id.ibRetweet);
             likeButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
+            ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
 
             itemView.setOnClickListener(this);
 

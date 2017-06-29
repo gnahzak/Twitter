@@ -183,4 +183,16 @@ public class ReplyActivity extends AppCompatActivity {
         }
 
     }
+
+//    private void setReplyListener() {
+//        replyButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Log.i(TAG, "Clicked reply");
+//
+//                // redirect to reply page
+//
+//            }
+//        });
+//
+//    }
 }

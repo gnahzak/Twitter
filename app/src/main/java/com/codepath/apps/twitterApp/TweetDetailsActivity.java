@@ -111,6 +111,8 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
     }
 
+
+
     private void retweetTweet() {
 
         client.retweet(uid, new JsonHttpResponseHandler() {

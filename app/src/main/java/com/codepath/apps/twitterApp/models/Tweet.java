@@ -3,13 +3,17 @@ package com.codepath.apps.twitterApp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.format.DateUtils;
+import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by kazhang on 6/26/17.
@@ -24,6 +28,7 @@ public class Tweet implements Parcelable {
     public String timestamp;
     public boolean favorited;
     public boolean retweeted;
+    public String media_url;
 
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
@@ -36,6 +41,16 @@ public class Tweet implements Parcelable {
         tweet.timestamp = getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
+
+        tweet.media_url = "";
+        // get first url for media
+        try {
+            tweet.media_url = getImageUrl(jsonObject.getJSONObject("entities").getJSONArray("media"));
+        } catch (JSONException e){
+            Log.i(TAG, "No media found");
+            e.printStackTrace();
+        }
+
         return tweet;
     }
 
@@ -47,6 +62,7 @@ public class Tweet implements Parcelable {
         timestamp = "";
         favorited = false;
         retweeted = false;
+        media_url = "";
     }
 
     private Tweet(Parcel in) {
@@ -57,6 +73,7 @@ public class Tweet implements Parcelable {
         timestamp = in.readString();
         favorited = (Boolean) in.readValue(null);
         retweeted = (Boolean) in.readValue(null);
+        media_url = in.readString();
     }
 
     // getRelativeTimeAgo("Mon Apr 01 21:16:23 +0000 2014");
@@ -91,6 +108,7 @@ public class Tweet implements Parcelable {
         out.writeString(timestamp);
         out.writeValue(favorited);
         out.writeValue(retweeted);
+        out.writeString(media_url);
     }
 
     public static final Parcelable.Creator<Tweet> CREATOR
@@ -108,4 +126,22 @@ public class Tweet implements Parcelable {
             return new Tweet[size];
         }
     };
+
+    private static String getImageUrl(JSONArray mediaArray) {
+        if (mediaArray.length() < 1) {
+            return "";
+        } else {
+
+            try {
+                String baseUrl = mediaArray.getJSONObject(0).getString("media_url_https");
+                String thumbUrl = String.format("%s:thumb", baseUrl);
+                Log.i("TWEET CLASS", thumbUrl);
+                return thumbUrl;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+    }
 }
