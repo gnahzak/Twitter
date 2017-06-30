@@ -69,7 +69,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvBody.setText(tweet.body);
         holder.timestamp.setText(tweet.timestamp);
         holder.tvRetweets.setText(String.valueOf(tweet.numRetweets));
-        holder.tvFavourites.setText(String.valueOf(tweet.numFaves));
+        holder.tvFavorites.setText(String.valueOf(tweet.numFaves));
 
         if (tweet.retweeted) {
             holder.retweetButton.setImageResource(R.drawable.option_retweet_selected);
@@ -184,7 +184,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageButton favoriteButton;
         public ImageView ivMedia;
         public TextView tvRetweets;
-        public TextView tvFavourites;
+        public TextView tvFavorites;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -200,7 +200,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             favoriteButton = (ImageButton) itemView.findViewById(R.id.ibFavorite);
             ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
             tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
-            tvFavourites = (TextView) itemView.findViewById(R.id.tvFavourites);
+            tvFavorites = (TextView) itemView.findViewById(R.id.tvFavorites);
 
 
             itemView.setOnClickListener(this);
@@ -345,7 +345,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     tweet.favorited = true;
                     numFaves += 1;
                     tweet.setNumFaves(numFaves);
-                    holder.tvFavourites.setText(String.valueOf(numFaves));
+                    holder.tvFavorites.setText(String.valueOf(numFaves));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -394,7 +394,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     tweet.favorited = false;
                     numFaves -= 1;
                     tweet.setNumFaves(numFaves);
-                    holder.tvFavourites.setText(String.valueOf(numFaves));
+                    holder.tvFavorites.setText(String.valueOf(numFaves));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

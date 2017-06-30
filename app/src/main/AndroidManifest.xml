@@ -37,6 +37,7 @@
             android:label="@string/homeText"/>
         <activity android:name=".ComposeActivity" />
         <activity android:name=".ReplyActivity"
+            android:label="Tweet"/>
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".TweetDetailsActivity"
             android:windowSoftInputMode="adjustResize"

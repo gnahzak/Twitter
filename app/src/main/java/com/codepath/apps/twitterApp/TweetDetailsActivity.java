@@ -35,6 +35,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     private TwitterClient client;
     ImageButton retweetButton;
     ImageButton favoriteButton;
+    ImageButton replyButton;
     String toUser;
     long uid;
     boolean favorited;
@@ -66,6 +67,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient();
         retweetButton = (ImageButton) findViewById(R.id.ibRetweet);
         favoriteButton = (ImageButton) findViewById(R.id.ibFavorite);
+        replyButton = (ImageButton) findViewById(R.id.ibReply);
 
         ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         tvUserName = (TextView) findViewById(R.id.tvUserName);
@@ -101,10 +103,10 @@ public class TweetDetailsActivity extends AppCompatActivity {
         favorited = tweet.favorited;
         retweeted = tweet.retweeted;
         if (favorited) {
-            favoriteButton.setImageResource(R.drawable.ic_launcher);
+            favoriteButton.setImageResource(R.drawable.option_favorite_selected);
         }
         if (retweeted) {
-            retweetButton.setImageResource(R.drawable.ic_launcher);
+            retweetButton.setImageResource(R.drawable.option_retweet_selected);
         }
 
         // loading profile image
@@ -146,6 +148,17 @@ public class TweetDetailsActivity extends AppCompatActivity {
         // set up listeners for buttons
         setRetweetListener();
         setFavoriteListener();
+        setReplyListener();
+    }
+
+    private void setReplyListener() {
+        replyButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Replied");
+                showSoftKeyboard(true);
+            }
+        });
+
     }
 
     private void setRetweetListener() {
@@ -191,7 +204,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     // returnTweet = tweet;
 
                     // set local changes
-                    retweetButton.setImageResource(R.drawable.ic_launcher);
+                    retweetButton.setImageResource(R.drawable.option_retweet_selected);
                     retweeted = true;
                     numRetweets += 1;
                     tvRetweets.setText(String.valueOf(numRetweets));
@@ -251,7 +264,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     // returnTweet = tweet;
 
                     // set local changes
-                    retweetButton.setImageResource(R.drawable.redo_button);
+                    retweetButton.setImageResource(R.drawable.option_retweet);
                     retweeted = false;
                     numRetweets -= 1;
                     tvRetweets.setText(String.valueOf(numRetweets));
@@ -310,7 +323,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     returnTweet = tweet;
 
                     // set local changes
-                    favoriteButton.setImageResource(R.drawable.ic_launcher);
+                    favoriteButton.setImageResource(R.drawable.option_favorite_selected);
                     favorited = true;
                     numFaves = returnTweet.numFaves;
                     tvFavorites.setText(String.valueOf(numFaves));
@@ -370,7 +383,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
                     returnTweet = tweet;
 
                     // set local changes
-                    favoriteButton.setImageResource(R.drawable.empty_heart);
+                    favoriteButton.setImageResource(R.drawable.option_favorite);
                     favorited = false;
                     numFaves = returnTweet.numFaves;
                     tvFavorites.setText(String.valueOf(numFaves));
