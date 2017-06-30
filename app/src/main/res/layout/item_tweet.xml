@@ -74,9 +74,11 @@
         android:id="@+id/ibReply"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignStart="@+id/tvBody"
-        android:layout_below="@+id/ivMedia"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        android:layout_alignStart="@+id/ivMedia"
+        android:layout_alignTop="@+id/tvComments"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/transparent"
+        app:srcCompat="@drawable/ic_vector_messages_stroke" />
 
     <TextView
         android:id="@+id/tvComments"
@@ -92,10 +94,10 @@
         android:id="@+id/ibRetweet"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:srcCompat="@android:drawable/ic_menu_rotate"
         android:layout_below="@+id/ivMedia"
         android:layout_toEndOf="@+id/tvComments"
-        />
+        android:backgroundTint="@android:color/transparent"
+        app:srcCompat="@drawable/option_retweet" />
 
     <TextView
         android:id="@+id/tvRetweets"
@@ -111,9 +113,10 @@
         android:id="@+id/ibFavorite"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_toEndOf="@+id/tvRetweets"
         android:layout_below="@+id/ivMedia"
-        app:srcCompat="@android:drawable/btn_star" />
+        android:layout_toEndOf="@+id/tvRetweets"
+        android:backgroundTint="@android:color/transparent"
+        app:srcCompat="@drawable/option_favorite" />
 
     <TextView
         android:id="@+id/tvFavourites"

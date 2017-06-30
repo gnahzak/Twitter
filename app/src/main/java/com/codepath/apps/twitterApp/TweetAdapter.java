@@ -72,15 +72,15 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvFavourites.setText(String.valueOf(tweet.numFaves));
 
         if (tweet.retweeted) {
-            holder.retweetButton.setImageResource(R.drawable.ic_launcher);
+            holder.retweetButton.setImageResource(R.drawable.option_retweet_selected);
         } else {
-            holder.retweetButton.setImageResource(R.drawable.redo_button);
+            holder.retweetButton.setImageResource(R.drawable.option_retweet);
         }
 
         if (tweet.favorited) {
-            holder.favoriteButton.setImageResource(R.drawable.ic_launcher);
+            holder.favoriteButton.setImageResource(R.drawable.option_favorite_selected);
         } else {
-            holder.favoriteButton.setImageResource(R.drawable.empty_heart);
+            holder.favoriteButton.setImageResource(R.drawable.option_favorite);
         }
 
         // loading profile image
@@ -243,7 +243,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                     // set local changes
                     int numRetweets = tweet.numRetweets;
-                    holder.retweetButton.setImageResource(R.drawable.ic_launcher);
+                    holder.retweetButton.setImageResource(R.drawable.option_retweet_selected);
                     tweet.setRetweeted(true);
                     numRetweets += 1;
                     tweet.setNumRetweets(numRetweets);
@@ -293,7 +293,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
                     // set local changes
                     int numRetweets = tweet.numRetweets;
-                    holder.retweetButton.setImageResource(R.drawable.redo_button);
+                    holder.retweetButton.setImageResource(R.drawable.option_retweet);
                     tweet.setRetweeted(false);
                     numRetweets -= 1;
                     tweet.setNumRetweets(numRetweets);
@@ -341,7 +341,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet newTweet = Tweet.fromJSON(response);
 
                     int numFaves = tweet.numFaves;
-                    holder.favoriteButton.setImageResource(R.drawable.ic_launcher);
+                    holder.favoriteButton.setImageResource(R.drawable.option_favorite_selected);
                     tweet.favorited = true;
                     numFaves += 1;
                     tweet.setNumFaves(numFaves);
@@ -390,7 +390,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     Tweet newTweet = Tweet.fromJSON(response);
 
                     int numFaves = tweet.numFaves;
-                    holder.favoriteButton.setImageResource(R.drawable.empty_heart);
+                    holder.favoriteButton.setImageResource(R.drawable.option_favorite);
                     tweet.favorited = false;
                     numFaves -= 1;
                     tweet.setNumFaves(numFaves);
