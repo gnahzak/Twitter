@@ -5,6 +5,8 @@ import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import com.codepath.apps.twitterApp.TimeFormatter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,7 +101,9 @@ public class Tweet implements Parcelable {
             e.printStackTrace();
         }
 
-        return relativeDate;
+        // return relativeDate;
+
+        return TimeFormatter.getTimeDifference(rawJsonDate);
     }
 
     @Override
