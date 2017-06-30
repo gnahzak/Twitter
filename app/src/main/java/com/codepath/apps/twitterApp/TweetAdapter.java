@@ -14,8 +14,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterApp.models.Tweet;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 import static android.content.ContentValues.TAG;
 
@@ -27,7 +34,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     public final static int DETAILS_REQUEST_CODE = 30;
 
-
+    private final TwitterClient client = TwitterApplication.getRestClient();;
     private List<Tweet> mTweets;
     Context context;
     // pass in Tweets array in constructor
@@ -45,13 +52,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         View tweetView = inflater.inflate(R.layout.item_tweet, parent, false);
         ViewHolder viewHolder = new ViewHolder(tweetView);
         return viewHolder;
+
     }
 
 
     // bind values based on position of the element
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // use position to get data
         final Tweet tweet = mTweets.get(position);
 
@@ -103,12 +111,40 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                         i.putExtra("Tweet", tweet);
                         context.startActivity(i);
                         return;
-//                    case R.id.ibRetweet:
-//                        //TODO
-//                        return;
-//                    case R.id.ibLike:
-//                        //TODO
-//                        return;
+                    default:
+                        Log.i(TAG, "Incorrect button chosen");
+                }
+            }
+        });
+
+        holder.retweetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.ibRetweet:
+                        if (tweet.retweeted) {
+                            unreTweet(holder, tweet);
+                        } else {
+                            retweetTweet(holder, tweet);
+                        }
+                        return;
+                    default:
+                        Log.i(TAG, "Incorrect button chosen");
+                }
+            }
+        });
+
+        holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.ibFavorite:
+                        if (tweet.favorited) {
+                            unfavTweet(holder, tweet);
+                        } else {
+                            favoriteTweet(holder, tweet);
+                        }
+                        return;
                     default:
                         Log.i(TAG, "Incorrect button chosen");
                 }
@@ -179,5 +215,199 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    private void retweetTweet(final ViewHolder holder, final Tweet tweet) {
 
+        client.retweet(tweet.uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+                    Tweet newTweet = Tweet.fromJSON(response);
+
+                    // set local changes
+                    int numRetweets = tweet.numRetweets;
+                    holder.retweetButton.setImageResource(R.drawable.ic_launcher);
+                    tweet.setRetweeted(true);
+                    numRetweets += 1;
+                    tweet.setNumRetweets(numRetweets);
+                    holder.tvRetweets.setText(String.valueOf(numRetweets));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void unreTweet(final ViewHolder holder, final Tweet tweet) {
+
+        client.unretweet(tweet.uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+
+                    Tweet newTweet = Tweet.fromJSON(response);
+
+                    // set local changes
+                    int numRetweets = tweet.numRetweets;
+                    holder.retweetButton.setImageResource(R.drawable.redo_button);
+                    tweet.setRetweeted(false);
+                    numRetweets -= 1;
+                    tweet.setNumRetweets(numRetweets);
+                    holder.tvRetweets.setText(String.valueOf(numRetweets));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void favoriteTweet(final ViewHolder holder, final Tweet tweet) {
+
+        client.favoriteTweet(tweet.uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+                    Tweet newTweet = Tweet.fromJSON(response);
+
+                    int numFaves = tweet.numFaves;
+                    holder.favoriteButton.setImageResource(R.drawable.ic_launcher);
+                    tweet.favorited = true;
+                    numFaves += 1;
+                    tweet.setNumFaves(numFaves);
+                    holder.tvFavourites.setText(String.valueOf(numFaves));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void unfavTweet(final ViewHolder holder, final Tweet tweet) {
+
+        client.unfavTweet(tweet.uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+
+                try {
+
+                    Tweet newTweet = Tweet.fromJSON(response);
+
+                    int numFaves = tweet.numFaves;
+                    holder.favoriteButton.setImageResource(R.drawable.empty_heart);
+                    tweet.favorited = false;
+                    numFaves -= 1;
+                    tweet.setNumFaves(numFaves);
+                    holder.tvFavourites.setText(String.valueOf(numFaves));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
 }
