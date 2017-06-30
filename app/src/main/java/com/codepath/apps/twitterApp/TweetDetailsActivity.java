@@ -1,10 +1,16 @@
 package com.codepath.apps.twitterApp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +30,8 @@ public class TweetDetailsActivity extends AppCompatActivity {
     // tag for all logging from this activity
     public final static String TAG = "TweetDetailsActivity";
 
+    public final static int CHAR_MAX = 140;
+
     private TwitterClient client;
     ImageButton retweetButton;
     ImageButton favoriteButton;
@@ -34,6 +42,11 @@ public class TweetDetailsActivity extends AppCompatActivity {
     private int numRetweets;
     private int numFaves;
     private int position;
+
+    EditText simpleEditText;
+    Button button;
+    TextView tvCharCount;
+    TextView replyTo;
 
     public ImageView ivProfileImage;
     public TextView tvUserName;
@@ -61,6 +74,11 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvRetweets = (TextView) findViewById(R.id.tvRetweets);
         tvFavorites = (TextView) findViewById(R.id.tvFavorites);
         ivMedia = (ImageView) findViewById(R.id.ivMedia);
+
+        simpleEditText = (EditText) findViewById(R.id.etTweetBody);
+        tvCharCount = (TextView) findViewById(R.id.tvCharCount);
+        replyTo = (TextView) findViewById(R.id.tvAtReply);
+        button = (Button) findViewById(R.id.btTweet);
 
         // unwrap tweet passed in via intent
         Intent i = getIntent();
@@ -110,6 +128,20 @@ public class TweetDetailsActivity extends AppCompatActivity {
         // list reply name and ID
         toUser = tweet.user.screenName;
         uid = tweet.uid;
+
+        replyTo = (TextView) findViewById(R.id.tvAtReply);
+        replyTo.setText("@" + toUser);
+
+        setCharCounter();
+        setTweetListener();
+
+        // check whether "reply" was clicked or not
+        boolean reply = i.getBooleanExtra("Reply", false);
+        Log.i(TAG, String.valueOf(reply));
+        if (reply) {
+            showSoftKeyboard(true);
+        }
+
 
         // set up listeners for buttons
         setRetweetListener();
@@ -395,6 +427,100 @@ public class TweetDetailsActivity extends AppCompatActivity {
         i.putExtra("Position", position);
         setResult(RESULT_OK, i);
         finish();
+    }
+
+
+    private void setTweetListener() {
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Replied");
+                replyTweet();
+            }
+        });
+
+    }
+
+    private void setCharCounter() {
+        simpleEditText.addTextChangedListener(new TextWatcher() {
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tvCharCount.setText(CHAR_MAX - s.toString().length() + " /140 characters");
+            }
+        });
+    }
+
+    private void replyTweet() {
+        Log.i(TAG, "Sent a reply tweet.");
+        final String message = simpleEditText.getText().toString();
+        final String newMessage = String.format("@%s %s", toUser, message);
+
+        client.replyTweet(newMessage, uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+                Log.i(TAG, message);
+
+                try {
+                    Tweet tweet = Tweet.fromJSON(response);
+
+                    // send back to the original activity
+                    Intent i = new Intent(TweetDetailsActivity.this, TimelineActivity.class);
+                    i.putExtra("Tweet", tweet);
+                    startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
+    private void showSoftKeyboard(boolean show) {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (show) {
+//            imm.showSoftInput(tvBody, InputMethodManager.SHOW_IMPLICIT);
+            simpleEditText.requestFocus();
+            imm.showSoftInput(simpleEditText, InputMethodManager.SHOW_IMPLICIT);
+        } else {
+            imm.hideSoftInputFromWindow(tvBody.getWindowToken(), 0);
+        }
+
     }
 }
 

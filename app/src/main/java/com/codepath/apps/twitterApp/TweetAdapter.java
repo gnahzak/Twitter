@@ -106,11 +106,25 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.ibReply:
-                        Log.i(TAG, username);
-                        Intent i = new Intent(context, ReplyActivity.class);
-                        i.putExtra("Tweet", tweet);
-                        context.startActivity(i);
-                        return;
+//                        Log.i(TAG, username);
+//                        Intent i = new Intent(context, TweetDetailsActivity.class);
+//                        i.putExtra("Tweet", tweet);
+//                        i.putExtra("Reply", true);
+//                        context.startActivity(i);
+//                        return;
+
+                        int position = holder.getAdapterPosition();
+
+                        // get tweet at that position in the list
+                        if (position != RecyclerView.NO_POSITION) {
+                            Tweet tweet = mTweets.get(position);
+                            Intent intent = new Intent(context, TweetDetailsActivity.class);
+                            intent.putExtra("Tweet", tweet);
+                            intent.putExtra("Position", position);
+                            intent.putExtra("Reply", true);
+
+                            ((Activity) context).startActivityForResult(intent, DETAILS_REQUEST_CODE);
+                        }
                     default:
                         Log.i(TAG, "Incorrect button chosen");
                 }
@@ -203,6 +217,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 Intent intent = new Intent(context, TweetDetailsActivity.class);
                 intent.putExtra("Tweet", tweet);
                 intent.putExtra("Position", position);
+                intent.putExtra("Reply", false);
 
                 ((Activity) context).startActivityForResult(intent, DETAILS_REQUEST_CODE);
             }
