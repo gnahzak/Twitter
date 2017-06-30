@@ -241,10 +241,16 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
     }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        tweetAdapter.clear();
+//        populateTimeline();
+//    }
 
-
-
-//    public void fetchTimelineAsync(int page) {
+    //    public void fetchTimelineAsync(int page) {
 //
 //        client.getHomeTimeline(new JsonHttpResponseHandler() {
 //            public void onSuccess(JSONArray response) {
