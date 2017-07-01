@@ -70,6 +70,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.timestamp.setText(tweet.timestamp);
         holder.tvRetweets.setText(String.valueOf(tweet.numRetweets));
         holder.tvFavorites.setText(String.valueOf(tweet.numFaves));
+        holder.tvAtName.setText("@" + String.valueOf(tweet.user.screenName));
 
         if (tweet.retweeted) {
             holder.retweetButton.setImageResource(R.drawable.option_retweet_selected);
@@ -185,6 +186,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public ImageView ivMedia;
         public TextView tvRetweets;
         public TextView tvFavorites;
+        public TextView tvAtName;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -201,7 +203,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             ivMedia = (ImageView) itemView.findViewById(R.id.ivMedia);
             tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
             tvFavorites = (TextView) itemView.findViewById(R.id.tvFavorites);
-
+            tvAtName = (TextView) itemView.findViewById(R.id.tvAtName);
 
             itemView.setOnClickListener(this);
 

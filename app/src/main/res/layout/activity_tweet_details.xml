@@ -80,7 +80,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/tvAtName"
-                app:srcCompat="@drawable/ic_launcher" />
+                app:srcCompat="@android:drawable/ic_menu_compass" />
 
             <TextView
                 android:id="@+id/tvRelativeTime"
@@ -106,10 +106,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivMedia"
-                android:layout_toEndOf="@+id/ibReply"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="20dp"
-                android:text="0" />
+                android:layout_toEndOf="@+id/ibReply"
+                android:text="0"
+                android:textColor="@android:color/transparent" />
 
             <ImageButton
                 android:id="@+id/ibRetweet"

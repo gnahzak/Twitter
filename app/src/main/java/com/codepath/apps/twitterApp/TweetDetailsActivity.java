@@ -56,6 +56,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     public TextView tvRetweets;
     public TextView tvFavorites;
     public ImageView ivMedia;
+    public TextView tvAtName;
 
     public Tweet returnTweet;
 
@@ -76,6 +77,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvRetweets = (TextView) findViewById(R.id.tvRetweets);
         tvFavorites = (TextView) findViewById(R.id.tvFavorites);
         ivMedia = (ImageView) findViewById(R.id.ivMedia);
+        tvAtName = (TextView) findViewById(R.id.tvAtName);
 
         simpleEditText = (EditText) findViewById(R.id.etTweetBody);
         tvCharCount = (TextView) findViewById(R.id.tvCharCount);
@@ -93,6 +95,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvUserName.setText(username);
         tvBody.setText(tweet.body);
         timestamp.setText(tweet.timestamp);
+        tvAtName.setText("@" + tweet.user.screenName);
 
         numRetweets = tweet.numRetweets;
         numFaves = tweet.numFaves;
