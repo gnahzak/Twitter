@@ -2,6 +2,7 @@ package com.codepath.apps.twitterApp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.codepath.apps.twitterApp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -36,6 +38,8 @@ public class TimelineActivity extends AppCompatActivity {
     private ArrayList<Tweet> tweets;
     private RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
+
+    private FloatingActionButton btCompose;
 
     public long maxId;
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -97,6 +101,9 @@ public class TimelineActivity extends AppCompatActivity {
         };
         // Adds the scroll listener to RecyclerView
         rvTweets.addOnScrollListener(scrollListener);
+
+        btCompose = (FloatingActionButton) findViewById(R.id.btCompose);
+        setComposeListener();
     }
 
     @Override
@@ -163,9 +170,7 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.miWriteTweet:
-                Intent i = new Intent(this, ComposeActivity.class);
-                startActivityForResult(i, COMPOSE_REQUEST_CODE);
-                return true;
+                //TODO: fill in more menu buttons
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -246,6 +251,19 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
     }
+
+    private void setComposeListener() {
+        btCompose.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Clicked compose");
+                Intent i = new Intent(TimelineActivity.this, ComposeActivity.class);
+                startActivityForResult(i, COMPOSE_REQUEST_CODE);
+            }
+        });
+
+    }
+
+
 //
 //    @Override
 //    protected void onResume() {
