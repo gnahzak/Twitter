@@ -33,15 +33,18 @@
                     android:scheme="@string/intent_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".TimelineActivity"
-            android:label="@string/homeText"/>
+        <activity
+            android:name=".TimelineActivity"
+            android:label="@string/homeText" />
         <activity android:name=".ComposeActivity" />
-        <activity android:name=".ReplyActivity"
-            android:label="Tweet"/>
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".TweetDetailsActivity"
-            android:windowSoftInputMode="adjustResize"
-            ></activity>
+        <activity
+            android:name=".ReplyActivity"
+            android:label="Tweet" />
+        android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".TweetDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>

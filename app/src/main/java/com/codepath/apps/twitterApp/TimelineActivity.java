@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -32,7 +33,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
         return true;
     }
 
@@ -46,7 +47,11 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
-
+    public void onProfileView(MenuItem item) {
+        // launch profile view
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
 
 
 
