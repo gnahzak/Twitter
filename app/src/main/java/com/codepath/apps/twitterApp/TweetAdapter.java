@@ -166,6 +166,16 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             }
         });
 
+        holder.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra("screen_name", tweet.user.screenName);
+
+                (context).startActivity(intent);
+            }
+        });
+
     }
 
     @Override

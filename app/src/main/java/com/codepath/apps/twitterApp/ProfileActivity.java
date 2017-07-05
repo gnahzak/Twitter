@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
         ft.commit();
 
         client = TwitterApplication.getRestClient();
-        client.getUserInfo(new JsonHttpResponseHandler() {
+        client.getUserInfo(screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // deserialize user object and set title bar
