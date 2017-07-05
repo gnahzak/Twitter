@@ -1,6 +1,7 @@
 package com.codepath.apps.twitterApp;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -156,7 +157,7 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 	}
 
-	public void getUserInfo(String screenName, AsyncHttpResponseHandler handler) {
+	public void getUserInfo(@Nullable String screenName, AsyncHttpResponseHandler handler) {
 
 		// if looking for another user's profile
 		if (screenName != null && !screenName.isEmpty()) {

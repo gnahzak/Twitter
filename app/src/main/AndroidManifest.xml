@@ -36,7 +36,8 @@
         <activity
             android:name=".TimelineActivity"
             android:label="@string/homeText" />
-        <activity android:name=".ComposeActivity" />
+        <activity android:name=".ComposeActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ReplyActivity"
             android:label="Tweet" />

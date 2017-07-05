@@ -1,6 +1,7 @@
 package com.codepath.apps.twitterApp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -9,9 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterApp.models.Tweet;
+import com.codepath.apps.twitterApp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -31,6 +35,8 @@ public class ComposeActivity extends AppCompatActivity {
     private TwitterClient client;
     Button button;
     TextView tvCharCount;
+    ImageButton ibProfile;
+    ImageButton ibClose;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +47,13 @@ public class ComposeActivity extends AppCompatActivity {
 
         simpleEditText = (EditText) findViewById(R.id.etTweetBody);
         tvCharCount = (TextView) findViewById(R.id.tvCharCount);
-
+        ibProfile = (ImageButton) findViewById(R.id.ibProfile);
+        ibClose = (ImageButton) findViewById(R.id.ibClose);
         button = (Button) findViewById(R.id.btTweet);
-        setTweetListener();
+
+        setProfileImage();
+
+        setFinishListener();
         setCharCounter();
     }
 
@@ -96,11 +106,18 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
-    private void setTweetListener() {
+    private void setFinishListener() {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, "Tweeted");
                 composeTweet();
+            }
+        });
+
+        ibClose.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Closed");
+                finish();
             }
         });
 
@@ -122,7 +139,54 @@ public class ComposeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                tvCharCount.setText(CHAR_MAX - s.toString().length() + " /140 characters");
+                int textLength = s.toString().length();
+                tvCharCount.setText(String.valueOf(CHAR_MAX - textLength));
+
+                // change color appropriately
+                if (textLength > 140) {
+                    tvCharCount.setTextColor(Color.RED);
+                } else {
+                    tvCharCount.setTextColor(Color.GRAY);
+                }
+            }
+        });
+    }
+
+    private void setProfileImage() {
+        client.getUserInfo(null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                // deserialize user object and set title bar
+                try {
+                    User user = User.fromJSON(response);
+                    Glide.with(ComposeActivity.this).load(user.profileImageUrl).into(ibProfile);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("TwitterClient", response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("TwitterClient", responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
             }
         });
     }

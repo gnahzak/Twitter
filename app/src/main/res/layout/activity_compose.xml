@@ -6,29 +6,69 @@
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.twitterApp.ComposeActivity">
 
-    <EditText
-        android:id="@+id/etTweetBody"
+    <RelativeLayout
+        android:id="@+id/rlButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="What's happening?"
-        android:maxLength="140"></EditText>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btTweet"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="300dp"
-        android:text="Button"
-        tools:layout_editor_absoluteX="296dp"
-        tools:layout_editor_absoluteY="462dp"></Button>
+        <ImageButton
+            android:id="@+id/ibClose"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_vector_close" />
 
-    <TextView
-        android:id="@+id/tvCharCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btTweet"
-        android:layout_alignParentEnd="true"
-        android:text="140/140 characters" />
+        <ImageButton
+            android:id="@+id/ibProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_vector_person" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlButtons">
+
+        <EditText
+            android:id="@+id/etTweetBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:hint="What's happening?"
+            android:background="@android:color/transparent">
+
+        </EditText>
+
+        <Button
+            android:id="@+id/btTweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/twitter_blue_50"
+            android:text="Tweet"
+            android:textAllCaps="false"
+            android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@android:color/white"
+            android:textSize="18dp"
+            tools:layout_editor_absoluteX="296dp"
+            tools:layout_editor_absoluteY="462dp"></Button>
+
+        <TextView
+            android:id="@+id/tvCharCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btTweet"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="10dp"
+            android:text="140" />
+
+    </RelativeLayout>
 </RelativeLayout>
