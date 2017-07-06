@@ -70,6 +70,18 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/ivDot" />
 
+    <ImageView
+        android:id="@+id/ivMedia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvBody"
+        android:layout_below="@+id/tvBody"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="5dp"
+        app:srcCompat="@android:color/black" />
+
+
+
     <ImageButton
         android:id="@+id/ibReply"
         android:layout_width="30dp"
@@ -128,15 +140,6 @@
         android:layout_marginLeft="6dp"
         android:layout_marginRight="20dp"
         android:text="0" />
-
-    <ImageView
-        android:id="@+id/ivMedia"
-        android:layout_width="340dp"
-        android:layout_height="226dp"
-        android:layout_below="@+id/tvBody"
-        app:srcCompat="@android:color/black"
-        android:layout_marginBottom="15dp"
-        android:layout_alignStart="@+id/tvBody"/>
 
     <View
         android:layout_marginTop="10dp"

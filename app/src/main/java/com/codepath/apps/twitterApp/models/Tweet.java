@@ -148,7 +148,7 @@ public class Tweet implements Parcelable {
 
             try {
                 String baseUrl = mediaArray.getJSONObject(0).getString("media_url_https");
-                String thumbUrl = String.format("%s:thumb", baseUrl);
+                String thumbUrl = String.format("%s:medium", baseUrl);
                 Log.i("TWEET CLASS", thumbUrl);
                 return thumbUrl;
             } catch (JSONException e) {
