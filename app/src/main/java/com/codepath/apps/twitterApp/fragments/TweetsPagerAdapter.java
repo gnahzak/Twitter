@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class TweetsPagerAdapter extends FragmentPagerAdapter {
 
-    private String tabTitles[] = new String[] {"Home", "Mentions"};
+    private String tabTitles[] = new String[] {"Home", "Mentions", "Search"};
     private Context context;
 
     public TweetsPagerAdapter(FragmentManager fm, Context context) {
@@ -22,7 +22,7 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
     // return total # of fragments
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     // return fragment to use, depending on position
@@ -32,6 +32,8 @@ public class TweetsPagerAdapter extends FragmentPagerAdapter {
             return new HomeTimelineFragment();
         } else if (position == 1) {
             return new MentionsTimelineFragment();
+        } else if (position == 2) {
+            return new SearchTimelineFragment();
         } else {
             return null;
         }
