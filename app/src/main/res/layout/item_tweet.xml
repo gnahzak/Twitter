@@ -28,7 +28,7 @@
         android:textStyle="bold"
         android:typeface="normal" />
 
-    <TextView
+    <com.codepath.apps.twitterApp.LinkifiedTextView
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,6 +39,8 @@
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="15dp"
+        android:autoLink="all"
+        android:linksClickable="true"
         />
 
     <ImageView
