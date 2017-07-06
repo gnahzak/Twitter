@@ -44,6 +44,7 @@
         android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".TweetDetailsActivity"
+            android:label="Tweet"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ProfileActivity"></activity>
     </application>

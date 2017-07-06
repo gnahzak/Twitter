@@ -10,6 +10,7 @@
         android:minHeight="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         app:titleTextColor="@android:color/black"
         android:background="@android:color/white">
     </android.support.v7.widget.Toolbar>
@@ -18,8 +19,9 @@
         android:id="@+id/svTweetInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
         android:layout_above="@+id/rlReply"
-        android:layout_alignParentTop="true"
+
         >
 
         <RelativeLayout

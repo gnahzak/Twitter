@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -112,6 +113,10 @@ public class TweetDetailsActivity extends AppCompatActivity {
         if (retweeted) {
             retweetButton.setImageResource(R.drawable.option_retweet_selected);
         }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Log.i(TAG, "Found toolbar");
 
         // loading profile image
         Glide.with(this)

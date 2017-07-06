@@ -2,14 +2,20 @@ package com.codepath.apps.twitterApp.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.codepath.apps.twitterApp.R;
 import com.codepath.apps.twitterApp.TwitterApplication;
 import com.codepath.apps.twitterApp.TwitterClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -23,22 +29,52 @@ public class SearchTimelineFragment extends TweetsListFragment {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
 
-        Toast.makeText(getContext(), "Hello", Toast.LENGTH_SHORT).show();
-        // populateTimeline();
-
+        setHasOptionsMenu(true);
 
     }
 
-    public void populateTimeline() {
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar.
+        inflater.inflate(R.menu.menu_search, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+                searchTimeline(query);
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+    }
+
+    public void searchTimeline(String q) {
+        client.getSearchTimeline(q, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    addItems(response.getJSONArray("statuses"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.d("TwitterClient", response.toString());
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                addItems(response);
+                Log.d("TwitterClient", response.toString());
             }
 
             @Override
@@ -61,9 +97,7 @@ public class SearchTimelineFragment extends TweetsListFragment {
         });
     }
 
-    public void loadNextDataFromApi() {
-        Toast.makeText(getContext(), "Refreshed", Toast.LENGTH_SHORT).show();
-
+//    public void loadNextDataFromApi() {
 //        client.getHomeTimeline(maxId, new JsonHttpResponseHandler() {
 //            @Override
 //            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -93,6 +127,7 @@ public class SearchTimelineFragment extends TweetsListFragment {
 //                throwable.printStackTrace();
 //            }
 //        });
+//
+//    }
 
-    }
 }

@@ -37,15 +37,15 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.miWriteTweet:
-                //TODO: fill in more menu buttons
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.miWriteTweet:
+//                //TODO: fill in more menu buttons
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     public void onProfileView(MenuItem item) {
         // launch profile view
