@@ -37,6 +37,11 @@ public class ComposeActivity extends AppCompatActivity {
     TextView tvCharCount;
     ImageButton ibProfile;
     ImageButton ibClose;
+    TextView tvToUser;
+    TextView tvReplyAt;
+
+    String toUser;
+    Long uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,24 @@ public class ComposeActivity extends AppCompatActivity {
         ibProfile = (ImageButton) findViewById(R.id.ibProfile);
         ibClose = (ImageButton) findViewById(R.id.ibClose);
         button = (Button) findViewById(R.id.btTweet);
+        tvToUser = (TextView) findViewById(R.id.tvToUser);
+        tvReplyAt = (TextView) findViewById(R.id.tvReplyAt);
 
         setProfileImage();
 
-        setFinishListener();
+        // set the toUser field appropriately
+        toUser = getIntent().getStringExtra("to_user");
+        uid = getIntent().getLongExtra("uid", 0);
+        if (toUser != null) {
+            // set as a reply
+            tvToUser.setText("@" + toUser);
+            setFinishListener(true);
+        } else {
+            tvToUser.setVisibility(View.GONE);
+            tvReplyAt.setVisibility(View.GONE);
+            setFinishListener(false);
+        }
+
         setCharCounter();
     }
 
@@ -106,13 +125,74 @@ public class ComposeActivity extends AppCompatActivity {
         });
     }
 
-    private void setFinishListener() {
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.i(TAG, "Tweeted");
-                composeTweet();
+    private void replyTweet() {
+        Log.i(TAG, "Sent a reply tweet.");
+        final String message = simpleEditText.getText().toString();
+        final String newMessage = String.format("@%s %s", toUser, message);
+
+        client.replyTweet(newMessage, uid, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.i(TAG, response.toString());
+                Log.i(TAG, message);
+
+                try {
+                    Tweet tweet = Tweet.fromJSON(response);
+
+                    // send back to the original activity, which must be the details activity
+                    Intent i = new Intent(ComposeActivity.this, TweetDetailsActivity.class);
+                    i.putExtra("Tweet", tweet);
+                    startActivity(i);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i(TAG, response.toString());
+            }
+
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d(TAG, responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d(TAG, errorResponse.toString());
+                throwable.printStackTrace();
             }
         });
+    }
+
+    private void setFinishListener(boolean isReply) {
+
+        // if this is a reply, tweeting should send directly to a specific user
+        if (isReply) {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.i(TAG, "Replied");
+                    replyTweet();
+                }
+            });
+        } else {
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Log.i(TAG, "Tweeted");
+                    composeTweet();
+                }
+            });
+        }
 
         ibClose.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

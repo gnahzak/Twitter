@@ -29,6 +29,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
     // tag for all logging from this activity
     public final static String TAG = "TweetDetailsActivity";
+    public final static int COMPOSE_REQUEST_CODE = 20;
 
     public final static int CHAR_MAX = 140;
 
@@ -158,7 +159,11 @@ public class TweetDetailsActivity extends AppCompatActivity {
         replyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.i(TAG, "Replied");
-                showSoftKeyboard(true);
+
+                Intent i = new Intent(TweetDetailsActivity.this, ComposeActivity.class);
+                i.putExtra("to_user", toUser);
+                i.putExtra("uid", uid);
+                startActivityForResult(i, COMPOSE_REQUEST_CODE);
             }
         });
 
@@ -191,8 +196,6 @@ public class TweetDetailsActivity extends AppCompatActivity {
         });
 
     }
-
-
 
     private void retweetTweet() {
 
@@ -535,6 +538,18 @@ public class TweetDetailsActivity extends AppCompatActivity {
             imm.showSoftInput(simpleEditText, InputMethodManager.SHOW_IMPLICIT);
         } else {
             imm.hideSoftInputFromWindow(tvBody.getWindowToken(), 0);
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == COMPOSE_REQUEST_CODE) {
+            Tweet tweet = data.getParcelableExtra("Tweet");
+
+            // prepare tweet to be passed back
+            returnTweet = tweet;
+
         }
 
     }

@@ -28,16 +28,39 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tvReplyAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlButtons"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Replying to">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvToUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlButtons"
+        android:layout_toEndOf="@+id/tvReplyAt"
+        android:text="User"
+        android:textColor="@color/blue">
+
+    </TextView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rlButtons">
+        android:layout_below="@+id/tvReplyAt">
 
         <EditText
             android:id="@+id/etTweetBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
             android:hint="What's happening?"
             android:background="@android:color/transparent">
 
