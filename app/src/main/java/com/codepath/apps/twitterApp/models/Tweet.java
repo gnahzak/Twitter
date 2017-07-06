@@ -42,7 +42,7 @@ public class Tweet implements Parcelable {
         tweet.uid = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
-        tweet.timestamp = getRelativeTimeAgo(jsonObject.getString("created_at"));
+        tweet.timestamp = " · " + getRelativeTimeAgo(jsonObject.getString("created_at"));
         tweet.favorited = jsonObject.getBoolean("favorited");
         tweet.retweeted = jsonObject.getBoolean("retweeted");
         tweet.numRetweets = jsonObject.getInt("retweet_count");
