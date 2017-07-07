@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.codepath.apps.twitterApp.ProfileActivity"
-    android:background="@android:color/white">
+    android:background="@color/very_light_gray">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rlUserHeader"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="@android:color/white">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:minHeight="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@android:color/black"
-            android:background="@android:color/white"
+            app:titleTextColor="@android:color/white"
+            android:background="@color/twitter_blue"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             >
@@ -31,6 +32,8 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_below="@+id/toolbar"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/ic_launcher"/>
 
@@ -38,10 +41,11 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/ivProfileImage"
             android:layout_below="@+id/toolbar"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/ivProfileImage"
             android:text="Name"
-            android:textSize="16dp"/>
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tvTagline"
@@ -50,30 +54,36 @@
             android:layout_alignStart="@+id/tvName"
             android:layout_below="@+id/tvName"
             android:text="TagLine"
-            android:textSize="12dp"/>
+            android:textSize="15dp"
+            android:textColor="@android:color/black"/>
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/llCounts"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlUserHeader"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/white">
 
         <TextView
             android:id="@+id/tvFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="5 Following"/>
+            android:text="5 Following"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/tvFollowers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="5 Followers"/>
+            android:text="5 Followers"
+            android:textSize="15dp" />
 
     </LinearLayout>
 
@@ -82,7 +92,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/llCounts">
+        android:layout_below="@+id/llCounts"
+        android:background="@android:color/white"
+        android:paddingTop="5dp">
 
     </FrameLayout>
 
