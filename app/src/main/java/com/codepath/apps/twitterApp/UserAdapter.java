@@ -48,6 +48,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.tvBody.setText(user.tagLine);
         holder.tvAtName.setText("@" + user.screenName);
 
+        if (user.verified) {
+            holder.ivVerified.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivVerified.setVisibility(View.GONE);
+        }
+
         // loading profile image
         Glide.with(context)
                 .load(user.profileImageUrl)
@@ -65,6 +71,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public TextView tvUserName;
         public TextView tvBody;
         public TextView tvAtName;
+        public ImageView ivVerified;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,6 +82,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
             tvAtName = (TextView) itemView.findViewById(R.id.tvAtName);
+            ivVerified = (ImageView) itemView.findViewById(R.id.ivVerified);
 
             itemView.setOnClickListener(this);
 
