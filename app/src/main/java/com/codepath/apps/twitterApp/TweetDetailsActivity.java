@@ -88,7 +88,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
         // unwrap tweet passed in via intent
         Intent i = getIntent();
-        Tweet tweet = (Tweet) i.getParcelableExtra("Tweet");
+        final Tweet tweet = (Tweet) i.getParcelableExtra("Tweet");
         returnTweet = tweet;
         position = i.getIntExtra("Position", 0);
 
@@ -122,6 +122,16 @@ public class TweetDetailsActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(tweet.user.profileImageUrl)
                 .into(ivProfileImage);
+
+        ivProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TweetDetailsActivity.this, ProfileActivity.class);
+                intent.putExtra("screen_name", tweet.user.screenName);
+
+                startActivity(intent);
+            }
+        });
 
 
         // load extra image

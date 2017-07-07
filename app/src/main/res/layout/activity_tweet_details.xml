@@ -42,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/ivProfileImage"
                 android:text="TextView"
                 android:textAllCaps="false"
@@ -51,7 +52,7 @@
                 android:textStyle="bold"
                 android:typeface="normal" />
 
-            <TextView
+            <com.codepath.apps.twitterApp.LinkifiedTextView
                 android:id="@+id/tvBody"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +63,8 @@
                 android:text="TextView"
                 android:textColor="@android:color/black"
                 android:textSize="15dp"
+                android:autoLink="all"
+                android:linksClickable="true"
                 />
 
             <ImageView
@@ -69,20 +72,9 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/tvUserName"
-                app:srcCompat="@drawable/ic_launcher" />
-
-            <ImageView
-                android:id="@+id/ivDot"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toEndOf="@+id/tvAtName"
-                app:srcCompat="@android:drawable/ic_menu_compass" />
+                app:srcCompat="@drawable/verified" />
 
             <TextView
                 android:id="@+id/tvRelativeTime"
@@ -91,7 +83,19 @@
                 android:text="TextView"
                 android:textSize="15dp"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/ivDot" />
+                android:layout_toEndOf="@+id/tvAtName" />
+
+            <ImageView
+                android:id="@+id/ivMedia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvBody"
+                android:layout_below="@+id/tvBody"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="5dp"
+                app:srcCompat="@android:color/black" />
+
+
 
             <ImageButton
                 android:id="@+id/ibReply"
@@ -147,19 +151,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/ibFavorite"
+                android:layout_toEndOf="@+id/ibFavorite"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="20dp"
-                android:layout_toEndOf="@+id/ibFavorite"
                 android:text="0" />
-
-            <ImageView
-                android:id="@+id/ivMedia"
-                android:layout_width="340dp"
-                android:layout_height="226dp"
-                android:layout_below="@+id/tvBody"
-                app:srcCompat="@android:color/black"
-                android:layout_marginBottom="15dp"
-                android:layout_alignStart="@+id/tvBody"/>
 
             <View
                 android:layout_marginTop="10dp"
