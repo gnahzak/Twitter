@@ -1,53 +1,49 @@
-# Project 3 - *TwitterApp*
+# Project 4 - *Twitter*
 
-**TwitterApp** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
+**Twitter** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **25** hours spent in total
+Time spent: **45** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
-* [x]	User can **sign in to Twitter** using OAuth login
-* [x]	User can **view tweets from their home timeline**
+* [x] User can **sign in to Twitter** using OAuth login process
+* [x] User can **view the tweets from their home timeline**
+  * [x] RecyclerView is used to display listings of any tweets
   * [x] User is displayed the username, name, and body for each tweet
   * [x] User is displayed the [relative timestamp](https://gist.github.com/nesquena/f786232f5ef72f6e10a7) for each tweet "8m", "7h"
 * [x] User can **compose and post a new tweet**
-  * [x] User can click a “Compose” floating action button
-  * [x] User can then enter a new tweet and post this to twitter
-  * [x] User is taken back to home timeline with **new tweet visible** in timeline
+  * [x] User can click a "Compose" icon in the App Bar on the top right
+  * [x] User can then enter a new tweet from a second activity and then post this to twitter
+  * [x] User is taken back to home timeline with new tweet visible in timeline
   * [x] Newly created tweet should be manually inserted into the timeline and not rely on a full refresh
 
 The following **optional** features are implemented:
 
-* [x] User can **see a counter with total number of characters left for tweet** on compose tweet page
-* [x] User can **pull down to refresh tweets timeline**
-* [x] User is using **"Twitter branded" colors and styles**
-* [ ] User sees an **indeterminate progress indicator** when any background or network task is happening
-* [x] User can **select "reply" from detail view to respond to a tweet**
-  * [x] User that wrote the original tweet is **automatically "@" replied in compose**
-* [x] User can tap a tweet to **open a detailed tweet view**
-  * [x] User can **take favorite (and unfavorite) or reweet** actions on a tweet
-* [x] User can **see embedded image media within a tweet** on list or detail view.
-
-The following **bonus** features are implemented:
-
-* [x] User can view more tweets as they scroll with infinite pagination
-* [ ] Compose tweet functionality is build using modal overlay
-* [x] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler).
-* [ ] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.com/android/Drawables#vector-drawables) where appropriate.
-* [ ] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
-* [ ] User can view following / followers list through any profile they view.
-* [ ] User can see embedded image media within the tweet detail view
-* [ ] Use the popular ButterKnife annotation library to reduce view boilerplate.
-* [ ] On the Twitter timeline, leverage the [CoordinatorLayout](http://guides.codepath.com/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events) to apply scrolling behavior that [hides / shows the toolbar](http://guides.codepath.com/android/Using-the-App-ToolBar#reacting-to-scroll).
-* [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
-
+* [x] While composing a tweet, user can see a character counter with characters remaining for tweet out of 140
+* [x] User can **pull down to refresh tweets** in either timeline.
+* [x] Improve the user interface and theme the app to feel twitter branded with colors and styles
+* [x] User can **search for tweets matching a particular query** and see results.
+* [ ] When a network request is sent, user sees an [indeterminate progress indicator](http://guides.codepath.com/android/Handling-ProgressBars#progress-within-actionbar)
+* [x] User can **"reply" to any tweet on their home timeline**
+  * [x] The user that wrote the original tweet is automatically "@" replied in compose
+* [x] User can click on a tweet to be **taken to a "detail view"** of that tweet
+ * [x] User can take favorite (and unfavorite) or retweet actions on a tweet
+* [x] User can see embedded image media within the tweet item in list or detail view.
+* [ ] Compose activity is replaced with a modal compose overlay.
+* [x] User can **click a link within a tweet body** on tweet details view. The click will launch the web browser with relevant page opened.
+* [x] Used Parcelable instead of Serializable leveraging the popular [Parceler library](http://guides.codepath.com/android/Using-Parceler) when passing data between activities.
+* [x] Replaced all icon drawables and other static image assets with [vector drawables](http://guides.codepath.com/android/Drawables#vector-drawables) where appropriate.
+* [x] User can view following / followers list through the profile of a user
+* [ ] Apply the popular Butterknife annotation library to reduce view boilerplate.
+* [ ] Implement collapse scrolling effects on the Twitter profile view using `CoordinatorLayout`.
+* [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in an offline mode.
 
 The following **additional** features are implemented:
 
-* [x] Reply, retweet, or favorite functions are available both from timeline and from details page. 
-* [x] Screen name is dispalyed next to each username in the timeline. 
+* [x] User can view more tweets as they scroll with [infinite pagination](http://guides.codepath.com/android/Endless-Scrolling-with-AdapterViews-and-RecyclerView). Number of tweets is unlimited.
+* [x] Tweets show whether the user is or is not verified. 
 
 ## Video Walkthrough
 
