@@ -21,14 +21,32 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.i(TAG, "Found toolbar");
 
-        ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
-        vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(), this));
+        final ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
+        final TweetsPagerAdapter tpAdapter = new TweetsPagerAdapter(getSupportFragmentManager(), this);
+        vpPager.setAdapter(tpAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // vpPager.setCurrentItem(tab.getPosition());
+                toolbar.setTitle(tpAdapter.getPageTitle(tab.getPosition()));
+                //Set title here using setTitle()
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
     }
 
     @Override
