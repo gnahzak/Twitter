@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        app:srcCompat="@android:color/black" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:text="TextView"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:typeface="normal" />
+
+    <com.codepath.apps.twitterApp.LinkifiedTextView
+        android:id="@+id/tvBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAtName"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:textSize="15dp"
+        android:autoLink="all"
+        android:linksClickable="true"
+        />
+
+    <ImageView
+        android:id="@+id/ivVerified"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toEndOf="@+id/tvUserName"
+        app:srcCompat="@drawable/ic_launcher" />
+
+    <View
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/tvBody"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/very_light_gray"/>
+
+    <TextView
+        android:id="@+id/tvAtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_below="@+id/tvUserName"
+        android:text="TextView"
+        android:textSize="15dp" />
+
+</RelativeLayout>

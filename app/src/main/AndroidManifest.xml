@@ -36,8 +36,9 @@
         <activity
             android:name=".TimelineActivity"
             android:label="@string/homeText" />
-        <activity android:name=".ComposeActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ComposeActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ReplyActivity"
             android:label="Tweet" />
@@ -46,7 +47,9 @@
             android:name=".TweetDetailsActivity"
             android:label="Tweet"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".FollowersActivity"
+            android:label="Followers"></activity>
     </application>
 
 </manifest>

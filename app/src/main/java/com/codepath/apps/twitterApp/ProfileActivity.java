@@ -1,11 +1,13 @@
 package com.codepath.apps.twitterApp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -94,7 +96,7 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    public void populateUserHeadline(User user) {
+    public void populateUserHeadline(final User user) {
         TextView tvName = (TextView) findViewById(R.id.tvName);
         TextView tvTagline = (TextView) findViewById(R.id.tvTagline);
         TextView tvFollowers = (TextView) findViewById(R.id.tvFollowers);
@@ -111,6 +113,14 @@ public class ProfileActivity extends AppCompatActivity {
         // load profile image with Glide
         Glide.with(this).load(user.profileImageUrl).into(ivProfileImage);
 
-
+        // set listener for tvFollowers
+        tvFollowers.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Clicked followers");
+                Intent i = new Intent(ProfileActivity.this, FollowersActivity.class);
+                i.putExtra("uid", user.uid);
+                startActivity(i);
+            }
+        });
     }
 }
