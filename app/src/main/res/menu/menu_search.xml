@@ -10,12 +10,4 @@
         android:iconifiedByDefault="false"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
-    <item
-        android:orderInCategory="6"
-        android:id="@+id/miProfile"
-        android:icon="@drawable/ic_person_white_24dp"
-        android:onClick="onProfileView"
-        android:title="Tweet"
-        app:showAsAction="ifRoom"/>
-
 </menu>

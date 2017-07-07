@@ -5,7 +5,7 @@
     <item
         android:orderInCategory="6"
         android:id="@+id/miProfile"
-        android:icon="@drawable/ic_person_white_24dp"
+        android:icon="@drawable/ic_vector_person"
         android:onClick="onProfileView"
         android:title="Tweet"
         app:showAsAction="ifRoom"/>
