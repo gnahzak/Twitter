@@ -23,11 +23,13 @@ import cz.msebera.android.httpclient.Header;
 public class SearchTimelineFragment extends TweetsListFragment {
 
     private TwitterClient client;
+    String lastQuery;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = TwitterApplication.getRestClient();
+        lastQuery = "";
 
         setHasOptionsMenu(true);
 
@@ -48,6 +50,7 @@ public class SearchTimelineFragment extends TweetsListFragment {
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
                 searchView.clearFocus();
+                lastQuery = query;
 
                 return true;
             }
@@ -95,6 +98,15 @@ public class SearchTimelineFragment extends TweetsListFragment {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    public void populateTimeline() {
+        // call searchTimeline on the current query, again
+        if (lastQuery.equals("")) {
+            Log.i(TAG, "Last query was empty");
+        } else {
+            searchTimeline(lastQuery);
+        }
     }
 
 //    public void loadNextDataFromApi() {
