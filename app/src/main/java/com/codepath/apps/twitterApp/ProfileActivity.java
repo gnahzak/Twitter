@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -107,8 +109,10 @@ public class ProfileActivity extends AppCompatActivity {
         tvName.setText(user.name);
 
         tvTagline.setText(user.tagLine);
-        tvFollowers.setText(user.followersCount + " Followers");
-        tvFollowing.setText(user.followingCount + " Following");
+        String followerText = "<b>" + user.followersCount + "</b> Followers";
+        tvFollowers.setText(fromHtml(followerText));
+        String followingText = "<b>" + user.followingCount + "</b> Following";
+        tvFollowing.setText(fromHtml(followingText));
 
         // load profile image with Glide
         Glide.with(this).load(user.profileImageUrl).into(ivProfileImage);
@@ -122,5 +126,25 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        tvFollowing.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.i(TAG, "Clicked following");
+                Intent i = new Intent(ProfileActivity.this, FollowingActivity.class);
+                i.putExtra("uid", user.uid);
+                startActivity(i);
+            }
+        });
+    }
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html){
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html,Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 }

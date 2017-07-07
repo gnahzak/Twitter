@@ -195,4 +195,15 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl, params, handler);
 
 	}
+
+	public void getFollowingList(long uid, AsyncHttpResponseHandler handler) {
+
+		String apiUrl = getApiUrl("friends/list.json");
+		// Can specify query string params directly or through RequestParams.
+		RequestParams params = new RequestParams();
+		params.put("user_id", uid);
+		params.put("count", 25);
+		client.get(apiUrl, params, handler);
+
+	}
 }

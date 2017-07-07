@@ -50,6 +50,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".FollowersActivity"
             android:label="Followers"></activity>
+        <activity android:name=".FollowingActivity"
+            android:label="Following"></activity>
     </application>
 
 </manifest>
