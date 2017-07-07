@@ -204,7 +204,6 @@ public class FollowersActivity extends AppCompatActivity {
     }
 
     public void loadNextDataFromApi() {
-        Toast.makeText(this, "Load new data", Toast.LENGTH_LONG);
         client.getFollowersList(maxCursor, uid, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

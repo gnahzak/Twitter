@@ -41,7 +41,7 @@ public class FollowingActivity extends AppCompatActivity {
     private FloatingActionButton btCompose;
 
     long uid;
-    public long maxId;
+    public long maxCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class FollowingActivity extends AppCompatActivity {
         btCompose = (FloatingActionButton) findViewById(R.id.btCompose);
         setComposeListener();
 
-        maxId = Long.MAX_VALUE;
+        maxCursor = 0;
 
         // adds refresh
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
@@ -157,10 +157,6 @@ public class FollowingActivity extends AppCompatActivity {
                 users.add(user);
                 userAdapter.notifyItemInserted(users.size() - 1);
 
-                // modify max_id
-                if (user.uid < maxId) {
-                    maxId = user.uid;
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -176,6 +172,8 @@ public class FollowingActivity extends AppCompatActivity {
                 Log.d("TwitterClient", response.toString());
                 try {
                     addItems(response.getJSONArray("users"));
+                    maxCursor = response.getLong("next_cursor");
+                    Log.i("TwitterClient", String.valueOf(maxCursor));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -206,5 +204,43 @@ public class FollowingActivity extends AppCompatActivity {
         });
     }
 
-    public void loadNextDataFromApi() { }
+    public void loadNextDataFromApi() {
+        client.getFollowingList(maxCursor, uid, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("TwitterClient", response.toString());
+                try {
+                    addItems(response.getJSONArray("users"));
+                    maxCursor = response.getLong("next_cursor");
+                    Log.i("TwitterClient", String.valueOf(maxCursor));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.d("TwitterClient", response.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.d("TwitterClient", responseString);
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.d("TwitterClient", errorResponse.toString());
+                throwable.printStackTrace();
+            }
+        });
+    }
+
 }
