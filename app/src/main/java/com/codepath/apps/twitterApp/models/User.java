@@ -21,6 +21,7 @@ public class User implements Parcelable {
     public String tagLine;
     public int followersCount;
     public int followingCount;
+    public boolean verified;
 
     public User() {
         name = "";
@@ -30,6 +31,7 @@ public class User implements Parcelable {
         tagLine = "";
         followersCount = 0;
         followingCount = 0;
+        verified = false;
     }
 
     private User(Parcel in){
@@ -40,6 +42,7 @@ public class User implements Parcelable {
         tagLine = in.readString();
         followersCount = in.readInt();
         followingCount = in.readInt();
+        verified = (Boolean) in.readValue(null);
     }
 
     // deserialize JSON
@@ -54,6 +57,7 @@ public class User implements Parcelable {
         user.tagLine = json.getString("description");
         user.followersCount = json.getInt("followers_count");
         user.followingCount = json.getInt("friends_count");
+        user.verified = json.getBoolean("verified");
 
         return user;
     }
@@ -73,6 +77,7 @@ public class User implements Parcelable {
         out.writeString(tagLine);
         out.writeInt(followersCount);
         out.writeInt(followingCount);
+        out.writeValue(verified);
 
     }
 

@@ -84,6 +84,12 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             holder.favoriteButton.setImageResource(R.drawable.option_favorite);
         }
 
+        if (tweet.user.verified) {
+            holder.ivVerified.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivVerified.setVisibility(View.GONE);
+        }
+
         // loading profile image
         Glide.with(context)
                 .load(tweet.user.profileImageUrl)
@@ -197,6 +203,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public TextView tvRetweets;
         public TextView tvFavorites;
         public TextView tvAtName;
+        public ImageView ivVerified;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -214,6 +221,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvRetweets = (TextView) itemView.findViewById(R.id.tvRetweets);
             tvFavorites = (TextView) itemView.findViewById(R.id.tvFavorites);
             tvAtName = (TextView) itemView.findViewById(R.id.tvAtName);
+            ivVerified = (ImageView) itemView.findViewById(R.id.ivVerified);
 
             itemView.setOnClickListener(this);
 
