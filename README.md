@@ -18,6 +18,10 @@ The following **required** functionality is completed:
   * [x] User can then enter a new tweet from a second activity and then post this to twitter
   * [x] User is taken back to home timeline with new tweet visible in timeline
   * [x] Newly created tweet should be manually inserted into the timeline and not rely on a full refresh
+  
+ * [x] User can switch between Timeline and Mention views using tabs.
+ * [x] User can navigate to view their own profile.
+ * [x] User can click on the profile image in any tweet to see another user's profile.
 
 The following **optional** features are implemented:
 
