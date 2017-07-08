@@ -68,7 +68,7 @@ Making the UI consistent across different activities was difficult. Fragments we
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2017 Kristine Zhang
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
